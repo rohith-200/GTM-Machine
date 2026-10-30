@@ -32,6 +32,8 @@ npm run build
 
 On this Windows workstation, the preinstalled Node 24.14.1 hit a Turbopack stylesheet-worker crash; the same build succeeded with the bundled Node 24.22.1. If the worker exits before connecting, run Next with the working Node runtime. No build configuration or backend changes were needed.
 
-The backend stub responses are sample data. Their content and API behavior remain owned by Person A. The shared types and backend files were not changed by this milestone.
+Backend integrations and API behavior remain owned by Person A. Real ICP generation requires the backend environment settings; `USE_FIXTURES=true` enables the existing sample-data mode for local checks without external API calls. No credential values are included in this repository.
+
+After syncing the real-ICP backend from main, five server files import `useFixtures` as `fixturesEnabled` to prevent React's hook lint rule from misidentifying that plain environment helper. Its export name, behavior, and the frozen shared contract are unchanged.
 
 When opening the frontend PR, include `@tenki-reviewer` in its title, description, and a PR comment, as requested by the team.

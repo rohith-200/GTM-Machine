@@ -9,7 +9,7 @@ import type {
   ICP, Lead, Competitor, Message, ActivityEvent, AgentLog, WarmPath, Actor,
 } from "@/contract/types";
 import { newId, now } from "./http";
-import { useFixtures } from "./env";
+import { useFixtures as fixturesEnabled } from "./env";
 import { logAgent, logEvent } from "./neo4j";
 
 const clone = <T>(x: T): T => structuredClone(x);
@@ -45,10 +45,10 @@ export function reset() {
 
 export function stubEvent(actor: Actor, action: string, detail: string, leadId: string | null) {
   store().events.unshift({ id: newId("ev"), leadId, actor, action, detail, timestamp: now() });
-  if (!useFixtures()) void logEvent(actor, action, detail, leadId);
+  if (!fixturesEnabled()) void logEvent(actor, action, detail, leadId);
 }
 
 export function stubLog(step: AgentLog["step"], message: string, level: AgentLog["level"] = "info") {
   store().logs.unshift({ id: newId("log"), step, message, level, timestamp: now() });
-  if (!useFixtures()) void logAgent(step, message, level);
+  if (!fixturesEnabled()) void logAgent(step, message, level);
 }
