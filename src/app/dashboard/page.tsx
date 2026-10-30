@@ -1,5 +1,5 @@
-import { StationPlaceholder } from "@/components/workspace/station-placeholder";
+import { ReportsWorkspace } from "@/components/workspace/reports-workspace";
 
 export default function DashboardPage() {
-  return <StationPlaceholder path="/dashboard" />;
+  return <ReportsWorkspace />;
 }
