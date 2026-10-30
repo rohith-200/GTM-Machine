@@ -1,5 +1,5 @@
-import { StationPlaceholder } from "@/components/workspace/station-placeholder";
+import { LeadsWorkspace } from "@/components/workspace/leads-workspace";
 
 export default function LeadsPage() {
-  return <StationPlaceholder path="/leads" />;
+  return <LeadsWorkspace />;
 }
