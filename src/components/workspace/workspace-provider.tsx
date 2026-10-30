@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
-import type { Competitor, ICP, IcpRequest, Lead } from "@/contract/types";
+import type { Competitor, ICP, IcpRequest, Lead, Message } from "@/contract/types";
 
 interface WorkspaceState {
   intake: IcpRequest;
@@ -10,6 +10,8 @@ interface WorkspaceState {
   setIcp: Dispatch<SetStateAction<ICP | null | undefined>>;
   leads: Lead[] | undefined;
   setLeads: Dispatch<SetStateAction<Lead[] | undefined>>;
+  messages: Message[] | undefined;
+  setMessages: Dispatch<SetStateAction<Message[] | undefined>>;
   competitors: Competitor[] | undefined;
   setCompetitors: Dispatch<SetStateAction<Competitor[] | undefined>>;
   clearDiscovery: () => void;
@@ -25,12 +27,13 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [intake, setIntake] = useState<IcpRequest>({ productDescription: "", customers: "", pricing: "" });
   const [icp, setIcp] = useState<ICP | null | undefined>(undefined);
   const [leads, setLeads] = useState<Lead[] | undefined>(undefined);
+  const [messages, setMessages] = useState<Message[] | undefined>(undefined);
   const [competitors, setCompetitors] = useState<Competitor[] | undefined>(undefined);
   const [activityOpen, setActivityOpen] = useState(false);
   const [dataVersion, setDataVersion] = useState(0);
   const clearDiscovery = useCallback(() => { setLeads(undefined); setCompetitors(undefined); }, []);
-  const resetData = useCallback(() => { setIcp(undefined); clearDiscovery(); setDataVersion(value => value + 1); }, [clearDiscovery]);
-  return <WorkspaceContext.Provider value={{ intake, setIntake, icp, setIcp, leads, setLeads, competitors, setCompetitors, clearDiscovery, activityOpen, setActivityOpen, dataVersion, resetData }}>{children}</WorkspaceContext.Provider>;
+  const resetData = useCallback(() => { setIcp(undefined); setMessages(undefined); clearDiscovery(); setDataVersion(value => value + 1); }, [clearDiscovery]);
+  return <WorkspaceContext.Provider value={{ intake, setIntake, icp, setIcp, leads, setLeads, messages, setMessages, competitors, setCompetitors, clearDiscovery, activityOpen, setActivityOpen, dataVersion, resetData }}>{children}</WorkspaceContext.Provider>;
 }
 
 export function useWorkspace() {

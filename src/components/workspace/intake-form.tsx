@@ -10,7 +10,7 @@ import { scrollToOffice } from "@/lib/office-navigation";
 import { useWorkspace } from "./workspace-provider";
 
 export function IntakeForm() {
-  const { intake, setIntake, setIcp, clearDiscovery } = useWorkspace();
+  const { intake, setIntake, setIcp, setMessages, clearDiscovery } = useWorkspace();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const request = useRef<AbortController | null>(null);
@@ -26,6 +26,7 @@ export function IntakeForm() {
     try {
       const icp = await api<ICP>("/api/icp", { method: "POST", signal: controller.signal, body: JSON.stringify({ productDescription: intake.productDescription.trim(), customers: intake.customers.trim(), pricing: intake.pricing.trim() }) });
       setIcp(icp);
+      setMessages(undefined);
       clearDiscovery();
       toast.success("Your customer profile is ready", { description: "Review it at the customer folder." });
       router.push("/icp", { scroll: false });
