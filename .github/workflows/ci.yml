@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     # Replace with the runner label shown in your Tenki dashboard after connecting the repo.
-    runs-on: YOUR_TENKI_RUNNER_LABEL
+    runs-on: your-tenki-label
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
