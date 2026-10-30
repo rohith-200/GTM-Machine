@@ -3,7 +3,7 @@ import type { ReviewRequest, Message, Lead } from "@/contract/types";
 import { handle, readBody, requireFields, ApiError, now } from "@/lib/http";
 import { useFixtures as fixturesEnabled } from "@/lib/env";
 import { loadLeads, loadMessages, saveLeadState, saveMessages } from "@/lib/repo";
-import { recipientFor, sendEmail } from "@/lib/one";
+import { recipientFor, sendEmail, providerName } from "@/lib/mailer";
 import { logAgent, logEvent } from "@/lib/neo4j";
 import { store } from "@/lib/stub-store";
 
@@ -45,8 +45,8 @@ export async function POST(req: Request) {
         if (!fixturesEnabled()) await sendEmail(to, message.subject ?? "(no subject)", bodyText);
         message.status = "sent";
         message.sentAt = now();
-        await logAgent("send", `Sent via One (Gmail) to ${to}${redirected ? " (test inbox)" : ""}`, "success");
-        await logEvent("rep", "message_sent", `Rep approved; email sent to ${to} via One (Gmail)`, lead.id);
+        await logAgent("send", `Sent via ${providerName()} to ${to}${redirected ? " (test inbox)" : ""}`, "success");
+        await logEvent("rep", "message_sent", `Rep approved; email sent to ${to} via ${providerName()}`, lead.id);
       } catch (e) {
         message.status = "failed";
         await logAgent("send", (e as Error).message, "error");
