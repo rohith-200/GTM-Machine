@@ -1,10 +1,12 @@
-// 5. GET /api/leads — STUB
+// 5. GET /api/leads — REAL (Neo4j)
 import type { Lead } from "@/contract/types";
 import { handle } from "@/lib/http";
+import { useFixtures } from "@/lib/env";
+import { loadLeads } from "@/lib/repo";
 import { store } from "@/lib/stub-store";
 
 export async function GET() {
   return handle<{ leads: Lead[] }>(async () => ({
-    leads: [...store().leads].sort((a, b) => b.fitScore - a.fitScore),
+    leads: useFixtures() ? [...store().leads].sort((a, b) => b.fitScore - a.fitScore) : await loadLeads(),
   }));
 }

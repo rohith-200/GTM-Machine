@@ -1,0 +1,7 @@
+{
+  "_comment": "Your team's real network. Each person = someone who can make an intro. pastCompanies are matched (case-insensitive, partial) against discovered company names. Edit before the demo.",
+  "connections": [
+    { "name": "Priya Shah", "relationship": "Former colleague of the founder", "pastCompanies": ["AMETEK", "Northwind Logistics"] },
+    { "name": "Daniel Kim", "relationship": "Angel investor", "pastCompanies": ["STG Logistics", "Sanmina"] }
+  ]
+}
