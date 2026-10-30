@@ -1,21 +1,30 @@
-// 1. POST /api/icp  and  2. GET /api/icp  — STUB
+// 1. POST /api/icp  and  2. GET /api/icp  — REAL (Nebius + Tavily + Neo4j)
 import type { IcpRequest, ICP } from "@/contract/types";
 import { handle, readBody, requireFields, now } from "@/lib/http";
-import { store, stubLog } from "@/lib/stub-store";
+import { useFixtures } from "@/lib/env";
+import { generateIcp, loadIcp } from "@/lib/icp";
+import { store } from "@/lib/stub-store";
 import { fxIcp } from "@/contract/fixtures";
+
+export const maxDuration = 60;
 
 export async function POST(req: Request) {
   return handle<ICP>(async () => {
     const body = await readBody<IcpRequest>(req);
     requireFields(body, ["productDescription"]);
-    await new Promise((r) => setTimeout(r, 1200)); // feel like an LLM call
-    const icp: ICP = { ...structuredClone(fxIcp), createdAt: now() };
-    store().icp = icp;
-    stubLog("icp", "Generated ICP with 3 industries and 2 personas", "success");
-    return icp;
+    if (useFixtures()) {
+      const icp = { ...structuredClone(fxIcp), createdAt: now() };
+      store().icp = icp;
+      return icp;
+    }
+    return generateIcp({
+      productDescription: body.productDescription,
+      customers: body.customers ?? "",
+      pricing: body.pricing ?? "",
+    });
   });
 }
 
 export async function GET() {
-  return handle<ICP | null>(async () => store().icp);
+  return handle<ICP | null>(async () => (useFixtures() ? store().icp : loadIcp()));
 }
