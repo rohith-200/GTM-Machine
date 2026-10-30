@@ -386,7 +386,7 @@ button:disabled { opacity: .55; cursor: not-allowed; }
 .leads-toolbar { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; padding: 17px 0; }
 .selection-copy { color: var(--muted-foreground); font-size: 11px; }
 .leads-toolbar-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 15px; }
-.lead-table-scroll { max-width: 100%; overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; }
+.lead-table-scroll { position: relative; max-width: 100%; overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; }
 .lead-table { width: 100%; min-width: 980px; text-align: left; border-collapse: collapse; font-size: 12px; }
 .lead-table th { padding: 12px 13px; background: #f1f2e8; color: #77826d; font-size: 10px; font-weight: 500; white-space: nowrap; }
 .lead-table td { border-top: 1px solid #e5e8da; padding: 16px 13px; vertical-align: top; }
