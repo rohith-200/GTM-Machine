@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test:frontend": "node --test tests/api.test.mjs tests/lead-state.test.mjs",
+    "test:frontend": "node --test tests/api.test.mjs tests/lead-state.test.mjs tests/message-state.test.mjs",
     "test-keys": "node --env-file=.env.local scripts/test-keys.mjs"
   },
   "dependencies": {

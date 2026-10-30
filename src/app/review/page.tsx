@@ -1,5 +1,5 @@
-import { StationPlaceholder } from "@/components/workspace/station-placeholder";
+import { OutboxWorkspace } from "@/components/workspace/outbox-workspace";
 
 export default function ReviewPage() {
-  return <StationPlaceholder path="/review" />;
+  return <OutboxWorkspace />;
 }
