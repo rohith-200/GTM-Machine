@@ -21,17 +21,16 @@ const OfficeScene = dynamic(() => import("@/components/office/office-scene"), {
 export function OfficeShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { resetData } = useWorkspace();
+  const { resetData, activityOpen, setActivityOpen } = useWorkspace();
   const [overviewAt, setOverviewAt] = useState<string | null>(null);
   const [focus, setFocus] = useState(false);
-  const [activityOpen, setActivityOpen] = useState(false);
   const [loadingDemo, setLoadingDemo] = useState(false);
   const activityButton = useRef<HTMLButtonElement>(null);
   const overview = overviewAt === pathname && !focus;
   const station = stations.find(station => station.href === pathname) ?? stations[0];
   const StationIcon = station.icon;
   const navigate = useCallback((path: StationPath) => { setOverviewAt(null); router.push(path, { scroll: false }); scrollToOffice(); }, [router]);
-  const closeActivity = useCallback(() => { setActivityOpen(false); activityButton.current?.focus(); }, []);
+  const closeActivity = useCallback(() => { setActivityOpen(false); activityButton.current?.focus(); }, [setActivityOpen]);
 
   async function loadDemo() {
     if (loadingDemo) return;

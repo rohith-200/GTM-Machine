@@ -1,7 +1,7 @@
 // 7. POST /api/enrich — REAL (Hunter.io)
 import type { LeadIdsRequest, Lead } from "@/contract/types";
 import { handle, readBody, requireFields, now } from "@/lib/http";
-import { useFixtures } from "@/lib/env";
+import { useFixtures as fixturesEnabled } from "@/lib/env";
 import { loadLeads, saveLeadState } from "@/lib/repo";
 import { enrichLead, fallbackEnrich } from "@/lib/hunter";
 import { logAgent, logEvent } from "@/lib/neo4j";
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
   return handle<{ leads: Lead[] }>(async () => {
     const body = await readBody<LeadIdsRequest>(req);
     requireFields(body, ["leadIds"]);
-    if (useFixtures()) return { leads: store().leads.filter((l) => body.leadIds.includes(l.id)) };
+    if (fixturesEnabled()) return { leads: store().leads.filter((l) => body.leadIds.includes(l.id)) };
 
     const leads = await loadLeads(body.leadIds);
     await logAgent("enrich", `Enriching ${leads.length} leads with Hunter.io`);

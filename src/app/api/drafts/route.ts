@@ -1,7 +1,7 @@
 // 8. POST /api/drafts — REAL (Nebius)
 import type { LeadIdsRequest, Message } from "@/contract/types";
 import { handle, readBody, requireFields, ApiError } from "@/lib/http";
-import { useFixtures } from "@/lib/env";
+import { useFixtures as fixturesEnabled } from "@/lib/env";
 import { loadLeads, saveMessages } from "@/lib/repo";
 import { loadIcp } from "@/lib/icp";
 import { draftForLead, mapLimit } from "@/lib/outreach";
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
   return handle<{ messages: Message[] }>(async () => {
     const body = await readBody<LeadIdsRequest>(req);
     requireFields(body, ["leadIds"]);
-    if (useFixtures()) return { messages: store().messages.filter((m) => body.leadIds.includes(m.leadId)) };
+    if (fixturesEnabled()) return { messages: store().messages.filter((m) => body.leadIds.includes(m.leadId)) };
 
     const [leads, icp] = await Promise.all([loadLeads(body.leadIds), loadIcp()]);
     if (!leads.length) throw new ApiError("NOT_FOUND", "No matching leads");

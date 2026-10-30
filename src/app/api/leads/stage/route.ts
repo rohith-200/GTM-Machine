@@ -1,7 +1,7 @@
 // 11. POST /api/leads/stage — REAL (Neo4j)
 import type { StageRequest, Lead, Stage } from "@/contract/types";
 import { handle, readBody, requireFields, ApiError, now } from "@/lib/http";
-import { useFixtures } from "@/lib/env";
+import { useFixtures as fixturesEnabled } from "@/lib/env";
 import { loadLeads, saveLeadState } from "@/lib/repo";
 import { logEvent } from "@/lib/neo4j";
 import { store, stubEvent } from "@/lib/stub-store";
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     requireFields(body, ["leadId", "stage"]);
     if (!STAGES.includes(body.stage)) throw new ApiError("BAD_REQUEST", "Unknown stage");
 
-    const lead = useFixtures()
+    const lead = fixturesEnabled()
       ? store().leads.find((l) => l.id === body.leadId)
       : (await loadLeads([body.leadId]))[0];
     if (!lead) throw new ApiError("NOT_FOUND", "Lead not found");
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     lead.stage = body.stage;
     lead.lastActor = "rep";
     lead.updatedAt = now();
-    if (useFixtures()) {
+    if (fixturesEnabled()) {
       stubEvent("rep", "stage_changed", `${from} -> ${body.stage}`, lead.id);
     } else {
       await saveLeadState(lead);

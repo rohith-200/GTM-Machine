@@ -1,7 +1,7 @@
 // 14. GET /api/analytics — REAL (computed from Neo4j)
 import type { Analytics, Stage, Tier, Lead, Message } from "@/contract/types";
 import { handle } from "@/lib/http";
-import { useFixtures } from "@/lib/env";
+import { useFixtures as fixturesEnabled } from "@/lib/env";
 import { loadLeads, loadMessages } from "@/lib/repo";
 import { run } from "@/lib/neo4j";
 import { store } from "@/lib/stub-store";
@@ -43,7 +43,7 @@ function compute(leads: Lead[], messages: Message[], actions: { ai: number; rep:
 
 export async function GET() {
   return handle<Analytics>(async () => {
-    if (useFixtures()) {
+    if (fixturesEnabled()) {
       const s = store();
       return compute(s.leads, s.messages, {
         ai: s.events.filter((e) => e.actor === "ai").length,

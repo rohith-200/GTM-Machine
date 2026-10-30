@@ -17,7 +17,7 @@ The frontend lives on `feat/person-b-frontend`. All data is requested from the e
 
 ## Subsequent milestones
 
-The four other routes intentionally have labeled foundation screens rather than fabricated campaign results. Continue with ICP segment decisions and discovery, then the leads table, outreach review, Kanban, and analytics using the frozen contract.
+At the end of this foundation milestone, the four other routes had labeled foundation screens. ICP segment decisions, discovery, and the leads table are now covered in the [discovery milestone](frontend-discovery.md). Outreach review, Kanban, and analytics follow using the frozen contract.
 
 ## Local development and checks
 

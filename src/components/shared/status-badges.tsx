@@ -24,12 +24,12 @@ export function EmailStatusIcon({ status }: { status: EmailStatus }) {
   return <span className={`status-badge status-${color}`}><Icon size={12} aria-hidden="true" />{label}</span>;
 }
 
-export function SourceLink({ source }: { source: Citation | null }) {
+export function SourceLink({ source, compact = false }: { source: Citation | null; compact?: boolean }) {
   if (!source) return <span className="muted-text">—</span>;
   let safe = false;
   try { safe = ["http:", "https:"].includes(new URL(source.url).protocol); } catch { /* Unusable evidence stays non-clickable. */ }
   if (!safe) return <span className="source-link muted-text"><AlertCircle size={13} aria-hidden="true" />Source unavailable</span>;
-  return <a className="source-link" href={source.url} target="_blank" rel="noopener noreferrer" title={source.snippet}><ExternalLink size={13} aria-hidden="true" /><span>{source.title || "View source"}</span><span className="sr-only"> (opens in a new tab)</span></a>;
+  return <a className={`source-link ${compact ? "source-link-compact" : ""}`} href={source.url} target="_blank" rel="noopener noreferrer" title={`${source.title}: ${source.snippet}`}><ExternalLink size={13} aria-hidden="true" /><span className={compact ? "sr-only" : undefined}>{source.title || "View source"}</span><span className="sr-only"> (opens in a new tab)</span></a>;
 }
 
 export function ActorBadge({ actor }: { actor: Actor }) {
