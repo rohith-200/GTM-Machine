@@ -426,6 +426,41 @@ button:disabled { opacity: .55; cursor: not-allowed; }
   .outbox-actions { align-items: stretch; }
   .outbox-actions .office-button { flex: 1 1 145px; white-space: normal; }
 }
+
+.pipeline-toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; padding: 0 0 13px; }
+.pipeline-instructions { color: #78826f; font-size: 10px; }
+.pipeline-board { display: grid; grid-template-columns: repeat(6, minmax(210px, 1fr)); gap: 12px; max-width: 100%; padding: 2px 2px 13px; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x proximity; scrollbar-color: #b7c1aa #eef0e5; }
+.pipeline-column { min-height: 235px; padding: 10px; border: 1px solid #e0e3d6; border-radius: 6px; background: #f5f5ec; scroll-snap-align: start; transition: background 150ms ease, border-color 150ms ease; }
+.pipeline-column.is-drop-target { border-color: #90a681; background: #edf2e4; }
+.pipeline-column-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 2px 1px 9px; border-bottom: 1px solid #e0e3d6; }
+.pipeline-column-heading h2 { font-size: 11px; font-weight: 600; }
+.pipeline-column-heading > span { display: grid; place-items: center; min-width: 21px; height: 21px; padding: 0 5px; border-radius: 12px; background: #e8ebdf; color: #66745e; font-size: 10px; font-variant-numeric: tabular-nums; }
+.pipeline-column-cards { display: grid; align-content: start; gap: 9px; min-height: 178px; padding-top: 9px; }
+.pipeline-column-empty { padding: 15px 7px; color: #89917f; font-size: 10px; line-height: 1.6; text-align: center; }
+.pipeline-card { min-width: 0; padding: 12px; border: 1px solid #e1e4d7; border-radius: 5px; background: #fffef9; box-shadow: 0 3px 10px #3440320a; }
+.pipeline-card.is-dragging { position: relative; z-index: 3; opacity: .8; box-shadow: 0 8px 22px #34403224; }
+.pipeline-card-top, .pipeline-card-tools, .pipeline-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 7px; }
+.pipeline-card-tools { justify-content: end; }
+.pipeline-card-saving { color: #788b68; }
+.pipeline-drag-handle { display: grid; place-items: center; width: 30px; height: 30px; margin: -5px; border-radius: 4px; color: #849078; cursor: grab; touch-action: none; }
+.pipeline-drag-handle:hover:not(:disabled) { background: #eef0e5; color: var(--primary); }
+.pipeline-drag-handle:active:not(:disabled) { cursor: grabbing; }
+.pipeline-card h3 { margin-top: 10px; color: #344b39; font: 400 17px/1.2 Georgia, serif; overflow-wrap: anywhere; }
+.pipeline-person { display: grid; gap: 2px; margin-top: 8px; font-size: 10px; font-weight: 500; }
+.pipeline-person span { color: #828b78; font-size: 9px; font-weight: 400; }
+.pipeline-card-footer { justify-content: flex-start; margin-top: 11px; padding-top: 9px; border-top: 1px solid #eceee4; }
+.pipeline-card-footer .status-badge { margin-left: auto; }
+.pipeline-fit { color: #455843; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.pipeline-fit small { margin-left: 3px; color: #87917a; font-size: 9px; font-weight: 400; }
+.pipeline-move-label { display: block; margin-top: 10px; color: #7d8774; font-size: 9px; }
+.pipeline-stage-select { width: 100%; min-height: 34px; margin-top: 4px; padding: 6px 8px; border: 1px solid #e0e3d6; border-radius: 4px; background: #fbfbf4; color: #52634d; font: inherit; font-size: 10px; }
+.pipeline-stage-select:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+@media (max-width: 650px) {
+  .pipeline-board { grid-template-columns: repeat(6, minmax(205px, 1fr)); gap: 9px; }
+  .pipeline-column { min-height: 220px; }
+  .pipeline-drag-handle { width: 36px; height: 36px; }
+  .pipeline-stage-select { min-height: 40px; }
+}
 .research-view-switch { display: flex; gap: 20px; border-bottom: 1px solid var(--border); margin: 0 0 6px; }
 .research-view-switch button { display: flex; align-items: center; gap: 7px; padding: 10px 2px 12px; color: var(--muted-foreground); border-bottom: 2px solid transparent; font-size: 12px; }
 .research-view-switch button[aria-pressed=true] { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }

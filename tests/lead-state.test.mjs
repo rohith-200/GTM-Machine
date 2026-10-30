@@ -31,6 +31,16 @@ test("enrichment cannot insert an unrelated lead into a discovery result", () =>
   assert.deepEqual(mergeLeadUpdates(current, []), current);
 });
 
+test("a stage response updates only its matching lead and preserves the rest of the board", () => {
+  const first = { id: "a", fitScore: 80, stage: "matched", lastActor: "ai" };
+  const second = { id: "b", fitScore: 60, stage: "contacted", lastActor: "rep" };
+  const updated = { ...first, stage: "replied", lastActor: "rep" };
+  const result = mergeLeadUpdates([first, second], [updated]);
+
+  assert.deepEqual(result, [updated, second]);
+  assert.equal(first.stage, "matched");
+});
+
 test("unknown and invalid signal dates remain readable placeholders", () => {
   assert.equal(formatSignalDate(null), "—");
   assert.equal(formatSignalDate("not-a-date"), "—");

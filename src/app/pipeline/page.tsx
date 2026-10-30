@@ -1,5 +1,5 @@
-import { StationPlaceholder } from "@/components/workspace/station-placeholder";
+import { PipelineWorkspace } from "@/components/workspace/pipeline-workspace";
 
 export default function PipelinePage() {
-  return <StationPlaceholder path="/pipeline" />;
+  return <PipelineWorkspace />;
 }
