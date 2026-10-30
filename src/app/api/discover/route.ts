@@ -1,7 +1,7 @@
 // 4. POST /api/discover — REAL (Tavily + Nebius + Neo4j)
 import type { DiscoverRequest, Lead, Competitor } from "@/contract/types";
 import { handle, readBody, requireFields, ApiError } from "@/lib/http";
-import { useFixtures } from "@/lib/env";
+import { useFixtures as fixturesEnabled } from "@/lib/env";
 import { loadIcp } from "@/lib/icp";
 import { discover } from "@/lib/discover";
 import { store } from "@/lib/stub-store";
@@ -12,7 +12,7 @@ export async function POST(req: Request) {
   return handle<{ leads: Lead[]; competitors: Competitor[] }>(async () => {
     const body = await readBody<DiscoverRequest>(req);
     requireFields(body, ["icpId"]);
-    if (useFixtures()) {
+    if (fixturesEnabled()) {
       const s = store();
       return { leads: [...s.leads].sort((a, b) => b.fitScore - a.fitScore), competitors: s.competitors };
     }

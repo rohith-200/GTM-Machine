@@ -1,7 +1,7 @@
 // 10. POST /api/messages/review — REAL (human approval gate + One -> Gmail)
 import type { ReviewRequest, Message, Lead } from "@/contract/types";
 import { handle, readBody, requireFields, ApiError, now } from "@/lib/http";
-import { useFixtures } from "@/lib/env";
+import { useFixtures as fixturesEnabled } from "@/lib/env";
 import { loadLeads, loadMessages, saveLeadState, saveMessages } from "@/lib/repo";
 import { recipientFor, sendEmail } from "@/lib/one";
 import { logAgent, logEvent } from "@/lib/neo4j";
@@ -15,11 +15,11 @@ export async function POST(req: Request) {
     requireFields(body, ["messageId", "action"]);
     if (!["approve", "edit", "reject"].includes(body.action)) throw new ApiError("BAD_REQUEST", "action must be approve, edit or reject");
 
-    const message = useFixtures()
+    const message = fixturesEnabled()
       ? store().messages.find((m) => m.id === body.messageId)
       : (await loadMessages({ id: body.messageId }))[0];
     if (!message) throw new ApiError("NOT_FOUND", "Message not found");
-    const lead = useFixtures()
+    const lead = fixturesEnabled()
       ? store().leads.find((l) => l.id === message.leadId)
       : (await loadLeads([message.leadId]))[0];
     if (!lead) throw new ApiError("NOT_FOUND", "Lead not found");
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
         const bodyText = redirected
           ? `[Demo: intended for ${lead.person.name} <${lead.person.email ?? "no email"}> at ${lead.company.name}]\n\n${message.body}`
           : message.body;
-        if (!useFixtures()) await sendEmail(to, message.subject ?? "(no subject)", bodyText);
+        if (!fixturesEnabled()) await sendEmail(to, message.subject ?? "(no subject)", bodyText);
         message.status = "sent";
         message.sentAt = now();
         await logAgent("send", `Sent via One (Gmail) to ${to}${redirected ? " (test inbox)" : ""}`, "success");
@@ -63,7 +63,7 @@ export async function POST(req: Request) {
       lead.lastActor = "rep";
       lead.updatedAt = now();
     }
-    if (!useFixtures()) {
+    if (!fixturesEnabled()) {
       await saveMessages([message]);
       if (moved) await saveLeadState(lead);
     }

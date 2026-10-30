@@ -1,7 +1,7 @@
 // Reading/writing leads & competitors in Neo4j, mapped to the frozen contract.
 import type { Lead, Competitor, Citation, Signal, SignalType, Message } from "@/contract/types";
 import { run } from "./neo4j";
-import { useFixtures } from "./env";
+import { useFixtures as fixturesEnabled } from "./env";
 import { store } from "./stub-store";
 
 const parse = <T>(s: unknown, d: T): T => {
@@ -108,7 +108,7 @@ export async function saveLeadState(lead: Lead) {
 
 /** While some routes are still stubs: make the in-memory store mirror Neo4j leads. */
 export async function syncStoreFromDb() {
-  if (useFixtures()) return;
+  if (fixturesEnabled()) return;
   store().leads = await loadLeads();
 }
 
